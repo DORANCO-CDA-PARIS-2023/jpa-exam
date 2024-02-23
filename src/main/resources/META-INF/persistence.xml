@@ -6,6 +6,12 @@
     <persistence-unit name="TpFinal">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <!-- <class>com.doranco.entity.#EntityName#</class> -->
+        <class>com.doranco.entity.Employee</class>
+        <class>com.doranco.entity.Client</class>
+        <class>com.doranco.entity.Reservation</class>
+        <class>com.doranco.entity.Service</class>
+        <class>com.doranco.entity.Hotel</class>
+        <class>com.doranco.entity.Room</class>
         <properties>
             <!--<property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost/#DB_NAME#" />
             <property name="jakarta.persistence.jdbc.user" value="#USER#" />
