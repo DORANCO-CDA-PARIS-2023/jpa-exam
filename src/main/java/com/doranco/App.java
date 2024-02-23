@@ -1,15 +1,24 @@
 package com.doranco;
 
+import com.doranco.service.HotelService;
+import java.util.Scanner;
 
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+public class App {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-public class App
-{
-    public static void main( String[] args )
-    {
-        try (EntityManagerFactory ef = Persistence.createEntityManagerFactory("TpFinal")){
+        System.out.println("Ajout nouvelle hôtel :");
+        System.out.print("Nom ? ");
+        String nomHotel = scanner.nextLine();
 
-        }
+        System.out.print("Adresse ? ");
+        String adresseHotel = scanner.nextLine();
+
+        System.out.print("Chambres disponibles ? ");
+        int nbChambresDisponibles = scanner.nextInt();
+        HotelService hotelService = new HotelService();
+        hotelService.ajouterHotel(nomHotel, adresseHotel, nbChambresDisponibles);
+        hotelService.close();
+        scanner.close();
     }
 }
