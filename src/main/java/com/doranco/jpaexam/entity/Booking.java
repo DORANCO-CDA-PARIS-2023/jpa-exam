@@ -49,7 +49,6 @@ public  final class Booking {
         return "Booking{" +
                 "id=" + id +
                 ", client=" + client +
-                ", bedroomList=" + bedroomList +
                 '}';
     }
 }
