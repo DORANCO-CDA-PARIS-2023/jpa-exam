@@ -1,9 +1,6 @@
 package com.doranco.jpaexam.service;
 
-import com.doranco.jpaexam.entity.Bedroom;
-import com.doranco.jpaexam.entity.Client;
-import com.doranco.jpaexam.entity.Employee;
-import com.doranco.jpaexam.entity.Hotel;
+import com.doranco.jpaexam.entity.*;
 import com.doranco.jpaexam.utils.ScannerUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -158,7 +155,19 @@ public class ActionData {
 
                 bedroom.setHotel(hotel);
 
-                // TODO: bedroom.setBooking();
+                long bookingId = scUtils.getLong(
+                        "Entrez l'id de la réservation → ",
+                        1,
+                        Long.MAX_VALUE
+                );
+
+                Booking booking = em.find(Booking.class, bookingId);
+                if (booking == null) {
+                    System.out.println("Il n'y a aucune réservation avec cette id.");
+                    System.out.println(largeSeparator);
+                    return;
+                }
+                bedroom.setBooking(booking);
 
                 bedroom.setNumber(scUtils.getString(
                         "Entrez le nouveau numéro de la chambre → ",
@@ -484,16 +493,132 @@ public class ActionData {
     private void treatBooking() {
         switch (actionType) {
             case CREATE -> {
+                Booking booking = new Booking();
 
+                long clientId = scUtils.getLong(
+                        "Entrez l'id du client qui effectue la réservation → ",
+                        1,
+                        Long.MAX_VALUE
+                );
+
+                Client client = em.find(Client.class, clientId);
+                if (client == null) {
+                    System.out.println("Il n'y a aucun client avec l'id " + clientId);
+                    System.out.println(largeSeparator);
+                    return;
+                }
+
+                booking.setClient(client);
+
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.persist(booking);
+                transaction.commit();
+                System.out.println("La réservation a été crée avec succès.");
+                System.out.println(largeSeparator);
             }
             case READ -> {
+                String prompt = String.format("""
+                        %s
+                        1. Afficher toutes les réservations
+                        2. Chercher une réservation par le nom complet d'un client
+                        3. Chercher une réservation par id
+                        %s
+                        → """,
+                        largeSeparator, largeSeparator);
 
+                int choice = scUtils.getInt(prompt, 1, 3);
+
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                List<Booking> bookingList = new ArrayList<>();
+                if (choice == 1) {
+                    TypedQuery<Booking> findAll = em.createNamedQuery("findAllBooking", Booking.class);
+                    bookingList.addAll(findAll.getResultList());
+                } else if (choice == 2) {
+                    String fullname = scUtils.getString(
+                            "Entrez le nom complet du client (nom prénom) → ",
+                            false
+                    );
+                    TypedQuery<Booking> findBookingByClientFullName = em.createNamedQuery("findBookingByClientFullName", Booking.class);
+                    findBookingByClientFullName.setParameter("fullname", fullname);
+                    bookingList.addAll(findBookingByClientFullName.getResultList());
+                } else {
+                    long id = scUtils.getLong(
+                            "Entrez l'id de la réservation recherché → ",
+                            1l,
+                            Long.MAX_VALUE
+                    );
+                    Booking booking = em.find(Booking.class, id);
+                    if (booking != null) {
+                        bookingList.add(booking);
+                    }
+                }
+                transaction.commit();
+
+                System.out.println(mediumSeparator);
+                System.out.println("Résultat:");
+                bookingList.stream().map(Booking::toString).forEach(System.out::println);
+                System.out.println(largeSeparator);
             }
             case UPDATE -> {
+                long id = scUtils.getLong(
+                        "Entrez l'id de la réservation à modifier → ",
+                        1,
+                        Long.MAX_VALUE
+                );
 
+                Booking booking = em.find(Booking.class, id);
+                if (booking == null) {
+                    System.out.println("Cette id ne correspond à aucune réservation existante.");
+                    System.out.println(largeSeparator);
+                    return;
+                }
+
+                long clientId = scUtils.getLong(
+                        "Entrez le nouvelle id du client qui effectue la réservation → ",
+                        1,
+                        Long.MAX_VALUE
+                );
+
+                Client client = em.find(Client.class, clientId);
+                if (client == null) {
+                    System.out.println("Il n'y a aucun client avec l'id " + clientId);
+                    System.out.println(largeSeparator);
+                    return;
+                }
+
+                System.out.println(mediumSeparator);
+
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.merge(booking);
+                transaction.commit();
+                System.out.println("La réservation a été modifié avec succès.");
+                System.out.println(largeSeparator);
             }
             case DELETE -> {
+                long id = scUtils.getLong(
+                        "Entrez l'id de la réservation à supprimer → ",
+                        1,
+                        Long.MAX_VALUE
+                );
 
+                Booking booking = em.find(Booking.class, id);
+                if (booking == null) {
+                    System.out.println("Cette id ne correspond à aucune réservation existante.");
+                    System.out.println(largeSeparator);
+                    return;
+                }
+
+                System.out.println(mediumSeparator);
+
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.remove(booking);
+                transaction.commit();
+                System.out.println("La réservation a été supprimé avec succès.");
+                System.out.println(largeSeparator);
             }
         }
     }

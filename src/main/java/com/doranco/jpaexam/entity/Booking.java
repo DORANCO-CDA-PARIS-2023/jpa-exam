@@ -8,6 +8,7 @@ import java.util.List;
 @Entity
 @Table
 @NamedQuery(name = "findAllBooking", query = "SELECT b FROM Booking b")
+@NamedQuery(name = "findBookingByClientFullName", query = "SELECT b FROM Booking b JOIN Client c ON b.client.id = c.id WHERE CONCAT(c.name, ' ', c.firstname) LIKE :fullname")
 public  final class Booking {
 
     @Id

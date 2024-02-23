@@ -22,13 +22,18 @@ Une fois compilé, vous pouvez exécuter le programme. À l'ouverture, l'applica
 Vous aurez le choix entre différents types de données pour effectuer votre action :
 
 - **Chambre (BEDROOM)** : Gestion des chambres d'hôtel.
-- **Réservation (BOOKING) (WIP)** : Gestion des réservations.
+- **Réservation (BOOKING)** : Gestion des réservations.
 - **Client (CLIENT)** : Gestion des informations clients.
 - **Employé (EMPLOYEE)** : Gestion des employés de l'hôtel.
 - **Hôtel (HOTEL)** : Informations sur l'hôtel et sa gestion.
 - **Service (SERVICE) (WIP)** : Gestion des services offerts par l'hôtel.
-## 📝 Suivre les Instructions
-Après avoir choisi le type de donnée et l'action à effectuer, suivez simplement les instructions affichées dans la console pour mener à bien votre tâche. Le programme vous guidera à travers chaque étape nécessaire pour compléter l'action choisie.
+## 📝 Exemple: Réaliser une réservation client complète
+Pour réaliser une réservation client complète vous pouriez vous y prendre de cette façon :
+1. `CREATE` > `BOOKING` > `<client_id>` : Créer une réservation pour un client
+2. `READ` > `BOOKING` > `<client_name> <client_firstname>` : Récupère l'id des réservations du client
+3. `UPDATE` > `BEDROOM` > `<id_bedroom_réservé>` > `<id_hotel_of_bedroom>` > `<id_booking_client>` >`<bedroom_number>` > `<bedroom_type>` > `<bedroom_price>`
+
+À la base tout cela devait se retrouver dans une Action pour simplifier les choses, mais je n'ai pas eu le temps.
 
 ## 📊 Diagrammes du Projet
 Pour une meilleure compréhension de la structure et du fonctionnement de notre base de données, consultez les diagrammes suivants situés dans le dossier `./merise/ du projet` :
