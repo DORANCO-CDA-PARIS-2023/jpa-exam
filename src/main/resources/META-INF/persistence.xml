@@ -6,7 +6,9 @@
     <persistence-unit name="TpFinal">
   <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
   <class>doranco.entitiy.Hotel</class>
+  <class>doranco.entitiy.Service</class>
   <class>doranco.entitiy.Client</class>
+  <class>doranco.entitiy.Chambre</class>
   <properties>
   <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver" />
   <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost/exam_jpa" />
