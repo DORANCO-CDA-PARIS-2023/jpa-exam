@@ -21,7 +21,7 @@ Une fois compilé, vous pouvez exécuter le programme. À l'ouverture, l'applica
 ## 📊 Types de Données
 Vous aurez le choix entre différents types de données pour effectuer votre action :
 
-- **Chambre (BEDROOM) (WIP)** : Gestion des chambres d'hôtel.
+- **Chambre (BEDROOM)** : Gestion des chambres d'hôtel.
 - **Réservation (BOOKING) (WIP)** : Gestion des réservations.
 - **Client (CLIENT) (WIP)** : Gestion des informations clients.
 - **Employé (EMPLOYEE)** : Gestion des employés de l'hôtel.

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 @Entity
 @Table
+@NamedQuery(name = "findAllBedroom", query = "SELECT b FROM Bedroom b")
+@NamedQuery(name = "findBedroomByNumber", query = "SELECT b FROM Bedroom b WHERE b.number LIKE :number")
 public final class Bedroom {
 
     @Id
@@ -65,5 +67,17 @@ public final class Bedroom {
 
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
+    }
+
+    @Override
+    public String toString() {
+        return "Bedroom{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", type='" + type + '\'' +
+                ", price=" + price +
+                ", booking=" + booking +
+                ", hotel=" + hotel +
+                '}';
     }
 }

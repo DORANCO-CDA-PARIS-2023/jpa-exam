@@ -12,6 +12,27 @@ public final class ScannerUtils {
         this.sc = sc;
     }
 
+    public float getFloat(String prompt, float minValue, float maxValue) {
+        float result = 0f;
+        boolean done = false;
+        do {
+            System.out.print(prompt);
+            try {
+                float input = sc.nextFloat();
+                if (input >= minValue && input <= maxValue) {
+                    result = input;
+                    done = true;
+                }
+            } catch (Exception ignored) {
+
+            } finally {
+                sc.nextLine();
+            }
+        } while (!done);
+
+        return result;
+    }
+
     public int getInt(String prompt, int minValue, int maxValue) {
         int result = 0;
         boolean done = false;

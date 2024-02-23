@@ -1,5 +1,6 @@
 package com.doranco.jpaexam.service;
 
+import com.doranco.jpaexam.entity.Bedroom;
 import com.doranco.jpaexam.entity.Employee;
 import com.doranco.jpaexam.entity.Hotel;
 import com.doranco.jpaexam.utils.ScannerUtils;
@@ -45,16 +46,166 @@ public class ActionData {
     private void treatBedroom() {
         switch (actionType) {
             case CREATE -> {
+                Bedroom bedroom = new Bedroom();
 
+                long hotelId = scUtils.getLong(
+                        "Entrez l'id de l'hôtel où se trouve la chambre → ",
+                        1,
+                        Long.MAX_VALUE
+                );
+
+                Hotel hotel = em.find(Hotel.class, hotelId);
+                if (hotel == null) {
+                    System.out.println("Il n'y a aucun hotel avec cette id.");
+                    System.out.println(largeSeparator);
+                    return;
+                }
+
+                bedroom.setHotel(hotel);
+                bedroom.setNumber(scUtils.getString(
+                        "Entrez le numéro de la chambre → ",
+                        false
+                ));
+                bedroom.setType(scUtils.getString(
+                        "Entrez le type de la chambre → ",
+                        false
+                ));
+                bedroom.setPrice(scUtils.getFloat(
+                        "Entrez le prix de la chambre → ",
+                        0,
+                        Float.MAX_VALUE
+                ));
+
+
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.persist(bedroom);
+                transaction.commit();
+                System.out.println("La chambre a été crée avec succès dans l'hôtel " + hotel.getName() + "." );
+                System.out.println(largeSeparator);
             }
             case READ -> {
+                String prompt = String.format("""
+                        %s
+                        1. Afficher toutes les chambres
+                        2. Chercher une chambre par numéro
+                        3. Chercher une chambre par id
+                        %s
+                        → """,
+                        largeSeparator, largeSeparator);
 
+                int choice = scUtils.getInt(prompt, 1, 3);
+
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                List<Bedroom> bedroomList = new ArrayList<>();
+                if (choice == 1) {
+                    TypedQuery<Bedroom> findAll = em.createNamedQuery("findAllBedroom", Bedroom.class);
+                    bedroomList.addAll(findAll.getResultList());
+                } else if (choice == 2) {
+                    String numero = scUtils.getString(
+                            "Entrez le numéro de la chambre recherché → ",
+                            false
+                    );
+                    TypedQuery<Bedroom> findByName = em.createNamedQuery("findBedroomByNumber", Bedroom.class);
+                    findByName.setParameter("number", numero);
+                    bedroomList.addAll(findByName.getResultList());
+                } else {
+                    long id = scUtils.getLong(
+                            "Entrez l'id de la chambre recherché → ",
+                            1l,
+                            Long.MAX_VALUE
+                    );
+                    Bedroom bedroom = em.find(Bedroom.class, id);
+                    if (bedroom != null) {
+                        bedroomList.add(bedroom);
+                    }
+                }
+                transaction.commit();
+
+                System.out.println(mediumSeparator);
+                System.out.println("Résultat:");
+                bedroomList.stream().map(Bedroom::toString).forEach(System.out::println);
+                System.out.println(largeSeparator);
             }
             case UPDATE -> {
+                long id = scUtils.getLong(
+                        "Entrez l'id de la chambre à modifier → ",
+                        1,
+                        Long.MAX_VALUE
+                );
 
+                Bedroom bedroom = em.find(Bedroom.class, id);
+                if (bedroom == null) {
+                    System.out.println("Cette id ne correspond à aucune chambre existante.");
+                    System.out.println(largeSeparator);
+                    return;
+                }
+
+                long hotelId = scUtils.getLong(
+                        "Entrez l'id de l'hôtel où se trouve la chambre → ",
+                        1,
+                        Long.MAX_VALUE
+                );
+
+                Hotel hotel = em.find(Hotel.class, hotelId);
+                if (hotel == null) {
+                    System.out.println("Il n'y a aucun hotel avec cette id.");
+                    System.out.println(largeSeparator);
+                    return;
+                }
+
+                bedroom.setHotel(hotel);
+
+                // TODO: bedroom.setBooking();
+
+                bedroom.setNumber(scUtils.getString(
+                        "Entrez le nouveau numéro de la chambre → ",
+                        false
+                ));
+
+                bedroom.setType(scUtils.getString(
+                        "Entrez le nouveau type de la chambre → ",
+                        false
+                ));
+
+                bedroom.setPrice(scUtils.getFloat(
+                        "Entrez le nouveau prix de la chambre → ",
+                        0,
+                        Float.MAX_VALUE
+                ));
+
+                System.out.println(mediumSeparator);
+
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.merge(bedroom);
+                transaction.commit();
+                System.out.println("La chambre a été modifié avec succès.");
+                System.out.println(largeSeparator);
             }
             case DELETE -> {
+                long id = scUtils.getLong(
+                        "Entrez l'id de la chambre à supprimer → ",
+                        1,
+                        Long.MAX_VALUE
+                );
 
+                Bedroom bedroom = em.find(Bedroom.class, id);
+                if (bedroom == null) {
+                    System.out.println("Cette id ne correspond à aucune chambre existante.");
+                    System.out.println(largeSeparator);
+                    return;
+                }
+
+                System.out.println(mediumSeparator);
+
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.remove(bedroom);
+                transaction.commit();
+                System.out.println("La chambre a été supprimé avec succès.");
+                System.out.println(largeSeparator);
             }
         }
     }
