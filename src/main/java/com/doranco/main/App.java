@@ -1,4 +1,4 @@
-package com.doranco;
+package com.doranco.main;
 
 
 import jakarta.persistence.EntityManagerFactory;
