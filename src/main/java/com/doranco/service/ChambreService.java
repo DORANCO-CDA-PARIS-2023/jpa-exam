@@ -1,32 +1,27 @@
 package com.doranco.service;
 
+import com.doranco.entity.Chambre;
 import com.doranco.entity.Hotel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-public class HotelService {
+public class ChambreService {
     private EntityManager entityManager;
 
-    public HotelService() {
+    public ChambreService() {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("TpFinal");
         entityManager = entityManagerFactory.createEntityManager();
     }
 
-    public void ajouterHotel(String nom, String adresse, int nbChambresDisponibles) {
+    public void ajouterChambre(String numero, String type, double prixParNuit, Hotel hotel) {
         entityManager.getTransaction().begin();
-        Hotel hotel = new Hotel(nom, adresse, nbChambresDisponibles);
-        entityManager.persist(hotel);
+        Chambre chambre = new Chambre(numero, type, prixParNuit, hotel);
+        entityManager.persist(chambre);
         entityManager.getTransaction().commit();
     }
 
     public void close() {
         entityManager.close();
-    }
-
-    public static void main(String[] args) {
-        HotelService hotelService = new HotelService();
-        hotelService.ajouterHotel("Hotel Test", "Adresse Test", 50);
-        hotelService.close();
     }
 }
