@@ -37,5 +37,60 @@ public class Room {
 	 
 	 @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
 	 private List<Reservation> reservations;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	public int getPricePerNight() {
+		return pricePerNight;
+	}
+
+	public void setPricePerNight(int pricePerNight) {
+		this.pricePerNight = pricePerNight;
+	}
+
+	public Hotel getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
+
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+
+	@Override
+	public String toString() {
+		return id + ". Chambre " + number + " / " + size + " places / " + pricePerNight + " € par nuit / Hôtel " + hotel.getName();
+	}
+	 
+	 
 	
 }
