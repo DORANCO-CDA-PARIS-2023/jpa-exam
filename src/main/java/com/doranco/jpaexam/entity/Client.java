@@ -6,6 +6,8 @@ import java.util.List;
 
 @Entity
 @Table
+@NamedQuery(name = "findAllClient", query = "SELECT c FROM Client c")
+@NamedQuery(name = "findClientByFullName", query = "SELECT c FROM Client c WHERE CONCAT(name, ' ', firstname) LIKE :fullname")
 public final class Client {
 
     @Id
@@ -56,5 +58,16 @@ public final class Client {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber +
+                '}';
     }
 }

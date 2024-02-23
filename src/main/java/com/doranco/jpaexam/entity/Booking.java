@@ -7,6 +7,7 @@ import java.util.List;
 
 @Entity
 @Table
+@NamedQuery(name = "findAllBooking", query = "SELECT b FROM Booking")
 public  final class Booking {
 
     @Id
@@ -42,4 +43,12 @@ public  final class Booking {
         return bedroomList;
     }
 
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id=" + id +
+                ", client=" + client +
+                ", bedroomList=" + bedroomList +
+                '}';
+    }
 }

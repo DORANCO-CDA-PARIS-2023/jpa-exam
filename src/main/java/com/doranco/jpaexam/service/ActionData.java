@@ -1,6 +1,7 @@
 package com.doranco.jpaexam.service;
 
 import com.doranco.jpaexam.entity.Bedroom;
+import com.doranco.jpaexam.entity.Client;
 import com.doranco.jpaexam.entity.Employee;
 import com.doranco.jpaexam.entity.Hotel;
 import com.doranco.jpaexam.utils.ScannerUtils;
@@ -338,16 +339,144 @@ public class ActionData {
     private void treatClient() {
         switch (actionType) {
             case CREATE -> {
+                Client client = new Client();
 
+                client.setName(scUtils.getString(
+                        "Entrez le nom du client → ",
+                        false
+                ));
+
+                client.setFirstname(scUtils.getString(
+                        "Entrez le prénom du client → ",
+                        false
+                ));
+
+                client.setAddress(scUtils.getString(
+                        "Entrez l'adresse du client → ",
+                        false
+                ));
+
+                client.setPhoneNumber(scUtils.getString(
+                        "Entrez le numéro de téléphone du client → ",
+                        false
+                ));
+
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.persist(client);
+                transaction.commit();
+                System.out.println("Le client a été crée avec succès.");
+                System.out.println(largeSeparator);
             }
             case READ -> {
+                String prompt = String.format("""
+                        %s
+                        1. Afficher tous les clients
+                        2. Chercher un client par le nom complet
+                        3. Chercher un client par id
+                        %s
+                        → """,
+                        largeSeparator, largeSeparator);
 
+                int choice = scUtils.getInt(prompt, 1, 3);
+
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                List<Client> clientList = new ArrayList<>();
+                if (choice == 1) {
+                    TypedQuery<Client> findAll = em.createNamedQuery("findAllClient", Client.class);
+                    clientList.addAll(findAll.getResultList());
+                } else if (choice == 2) {
+                    String fullname = scUtils.getString(
+                            "Entrez le nom complet du client recherché (nom prénom) → ",
+                            false
+                    );
+                    TypedQuery<Client> findByName = em.createNamedQuery("findClientByFullName", Client.class);
+                    findByName.setParameter("fullname", fullname);
+                    clientList.addAll(findByName.getResultList());
+                } else {
+                    long id = scUtils.getLong(
+                            "Entrez l'id du client recherché → ",
+                            1l,
+                            Long.MAX_VALUE
+                    );
+                    Client client = em.find(Client.class, id);
+                    if (client != null) {
+                        clientList.add(client);
+                    }
+                }
+                transaction.commit();
+
+                System.out.println(mediumSeparator);
+                System.out.println("Résultat:");
+                clientList.stream().map(Client::toString).forEach(System.out::println);
+                System.out.println(largeSeparator);
             }
             case UPDATE -> {
+                long id = scUtils.getLong(
+                        "Entrez l'id du client à modifier → ",
+                        1,
+                        Long.MAX_VALUE
+                );
 
+                Client client = em.find(Client.class, id);
+                if (client == null) {
+                    System.out.println("Cette id ne correspond à aucun client existant.");
+                    System.out.println(largeSeparator);
+                    return;
+                }
+
+                client.setName(scUtils.getString(
+                        "Entrez le nouveau nom du client → ",
+                        false
+                ));
+
+                client.setFirstname(scUtils.getString(
+                        "Entrez le nouveau prénom du client → ",
+                        false
+                ));
+
+                client.setAddress(scUtils.getString(
+                        "Entrez la nouvelle adresse du client → ",
+                        false
+                ));
+
+                client.setPhoneNumber(scUtils.getString(
+                        "Entrez le nouveau numéro de téléphone du client → ",
+                        false
+                ));
+
+                System.out.println(mediumSeparator);
+
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.merge(client);
+                transaction.commit();
+                System.out.println("Le client a été modifié avec succès.");
+                System.out.println(largeSeparator);
             }
             case DELETE -> {
+                long id = scUtils.getLong(
+                        "Entrez l'id du client à supprimer → ",
+                        1,
+                        Long.MAX_VALUE
+                );
 
+                Client client = em.find(Client.class, id);
+                if (client == null) {
+                    System.out.println("Cette id ne correspond à aucun client existant.");
+                    System.out.println(largeSeparator);
+                    return;
+                }
+
+                System.out.println(mediumSeparator);
+
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.remove(client);
+                transaction.commit();
+                System.out.println("Le clients a été supprimé avec succès.");
+                System.out.println(largeSeparator);
             }
         }
     }
