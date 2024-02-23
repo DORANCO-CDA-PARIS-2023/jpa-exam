@@ -8,7 +8,7 @@ CREATE TABLE Chambre (
     id INT PRIMARY KEY,
     numero VARCHAR(255),
     type VARCHAR(255),
-    prix DECIMAL(10, 2),
+    prix DOUBLE,
     disponibilite BOOLEAN
 );
 
@@ -33,7 +33,7 @@ CREATE TABLE Service (
     id INT PRIMARY KEY,
     nom VARCHAR(255),
     description TEXT,
-    prix DECIMAL(10, 2)
+    prix DOUBLE
 );
 
 CREATE TABLE Reservation_Service (
