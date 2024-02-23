@@ -23,7 +23,7 @@ Vous aurez le choix entre différents types de données pour effectuer votre act
 
 - **Chambre (BEDROOM)** : Gestion des chambres d'hôtel.
 - **Réservation (BOOKING) (WIP)** : Gestion des réservations.
-- **Client (CLIENT) (WIP)** : Gestion des informations clients.
+- **Client (CLIENT)** : Gestion des informations clients.
 - **Employé (EMPLOYEE)** : Gestion des employés de l'hôtel.
 - **Hôtel (HOTEL)** : Informations sur l'hôtel et sa gestion.
 - **Service (SERVICE) (WIP)** : Gestion des services offerts par l'hôtel.
