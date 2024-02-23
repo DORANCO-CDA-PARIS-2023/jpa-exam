@@ -1,38 +1,35 @@
 package com.doranco.service;
 
-
-import com.doranco.entities.Hotel;
+import com.doranco.entities.Customer;
 import com.doranco.entities.Reservation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-
-public class ReservationService  {
+public class CustomerService {
     private final EntityManager manager;
 
-    public ReservationService(EntityManager manager)
+    public CustomerService(EntityManager manager)
     {
         this.manager = manager;
     }
 
 
 
-    public void create(Reservation reservation)
+    public void create(Customer customer)
     {
         EntityTransaction transaction = manager.getTransaction();
         transaction.begin();
-        manager.persist(reservation);
+        manager.persist(customer);
         transaction.commit();
     }
 
-    public List<Reservation> findAll()
+    public List<Customer> findAll()
     {
         return manager
-                .createQuery( "SELECT l FROM Reservation l", Reservation.class)
+                .createQuery( "SELECT l FROM Customer l", Customer.class)
                 .getResultList();
     }}
+
 

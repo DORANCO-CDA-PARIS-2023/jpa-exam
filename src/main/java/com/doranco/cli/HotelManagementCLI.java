@@ -1,23 +1,35 @@
 package com.doranco.cli;
 
 
+import com.doranco.entities.Customer;
 import com.doranco.entities.Hotel;
+import com.doranco.entities.Reservation;
+import com.doranco.entities.Room;
+import com.doranco.service.CustomerService;
 import com.doranco.service.HotelService;
 import com.doranco.service.ReservationService;
+import com.doranco.service.RoomService;
 import org.springframework.context.annotation.EnableMBeanExport;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 @EnableMBeanExport
 public class HotelManagementCLI {
     private HotelService hotelService;
     private ReservationService reservationService;
+    private CustomerService customerService;
+    private RoomService roomService;
 
-    public HotelManagementCLI(HotelService hotelService, ReservationService reservationService) {
+    public HotelManagementCLI(HotelService hotelService, ReservationService reservationService,CustomerService customerService,RoomService roomService) {
         this.hotelService = hotelService;
         this.reservationService= reservationService;
+        this.customerService=customerService;
+        this.roomService=roomService;
     }
 
-    public void start() {
+    public void start() throws ParseException {
         Scanner scanner = new Scanner(System.in);
         int choice;
 
@@ -77,7 +89,7 @@ public class HotelManagementCLI {
         hotelService.findAll().forEach(System.out::println);
     }
 
-    private void createReservation(Scanner scanner) {
+    private void createReservation(Scanner scanner) throws ParseException {
         System.out.print("Enter customer name: ");
         String customerName = scanner.next();
         // Get customer details from repository or create a new customer
@@ -89,6 +101,33 @@ public class HotelManagementCLI {
         System.out.print("Enter room number: ");
         int roomNumber = scanner.nextInt();
         // Get room details from repository
+        System.out.print("Enter start date (dd/mm/yyyy): ");
+        String dateStr = scanner.next();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date startDate = sdf.parse(dateStr);
+        System.out.print("Enter end date (dd/mm/yyyy): ");
+        String dateEnd = scanner.next();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+        Date endDate = sdf.parse(dateEnd);
+        Reservation reservation=new Reservation();
+        Customer customer=new Customer();
+        customer.setFirstName(customerName);
+        Room room=new Room();
+        room.setRoomNumber(roomNumber);
+        roomService.create(room);
+
+        customerService.create(customer);
+        reservation.setCustomer(customer);
+
+        reservation.setStartDate(startDate);
+        reservation.setEndDate(endDate);
+
+        reservation.setRoom(room);
+        reservation.setCustomer(customer);
+        Reservation reservation1=new Reservation(customer.getId(),endDate,room.getId(),startDate);
+        reservationService.create(reservation1);
+        reservationService.create(reservation);
+
 
         // Create reservation object and save it to repository
         // Reservation reservation = new Reservation();
