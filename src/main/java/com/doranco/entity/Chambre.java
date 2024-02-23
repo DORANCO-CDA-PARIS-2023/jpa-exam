@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,13 +19,18 @@ import jakarta.persistence.Table;
 public class Chambre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_Chambre")
     private Long id;
-    private String numero;
+    
+    @Column(name = "numeroChambre")
+    private int numero;
+    @Column(name = "type")
     private String type;
+    @Column(name = "prix")
     private double prixParNuit;
 
     @ManyToOne
-    @JoinColumn(name = "hotel_id")
+    @JoinColumn(name = "ID_Hotel")
     private Hotel hotel;
 
     @OneToMany(mappedBy = "chambre", cascade = CascadeType.ALL)
@@ -32,9 +38,7 @@ public class Chambre {
 
     public Chambre() {}
     
-	public Chambre(Long id, String numero, String type, double prixParNuit) {
-		super();
-		this.id = id;
+	public Chambre(int numero, String type, double prixParNuit) {
 		this.numero = numero;
 		this.type = type;
 		this.prixParNuit = prixParNuit;
@@ -48,11 +52,11 @@ public class Chambre {
 		this.id = id;
 	}
 
-	public String getNumero() {
+	public int getNumero() {
 		return numero;
 	}
 
-	public void setNumero(String numero) {
+	public void setNumero(int numero) {
 		this.numero = numero;
 	}
 

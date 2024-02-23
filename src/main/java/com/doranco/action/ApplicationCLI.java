@@ -3,16 +3,20 @@ package com.doranco.action;
 
 import java.io.InputStream;
 import java.util.Scanner;
+
+import com.doranco.services.ChambreService;
 import com.doranco.services.HotelService;
 
 public class ApplicationCLI {
 
     private final Scanner scanner;
     private final HotelService hotelService;
+    private final ChambreService chambreService;
 
     public ApplicationCLI(InputStream inputStream) {
         this.scanner = new Scanner(inputStream);
-        this.hotelService = new HotelService(); // Initialisez votre service de gestion d'hôtel
+        this.hotelService = new HotelService();
+        this.chambreService = new ChambreService(hotelService);
     }
 
     public void start() {
@@ -89,8 +93,8 @@ public class ApplicationCLI {
 
     private void addHotel() {
         System.out.println("Entrez le nom de l'hôtel : ");
-        String nom = scanner.next(); // Utiliser scanner.next() pour lire un seul mot
-        scanner.nextLine(); // Ignorer le reste de la ligne
+        String nom = scanner.next();
+        scanner.nextLine();
         System.out.println("Entrez l'adresse de l'hôtel : ");
         String adresse = scanner.nextLine();
         System.out.println("Entrez le nombre total de chambres disponibles : ");
@@ -98,18 +102,33 @@ public class ApplicationCLI {
         while (true) {
             try {
                 nombreChambres = Integer.parseInt(scanner.nextLine());
-                break; // Sortir de la boucle si la conversion a réussi
+                break;
             } catch (NumberFormatException e) {
                 System.out.println("Veuillez entrer un nombre valide pour le nombre de chambres.");
             }
         }
-        // Appelez votre service de gestion d'hôtel pour ajouter l'hôtel avec les informations fournies
         hotelService.addHotel(nom, adresse, nombreChambres);
         System.out.println("L'hôtel a été ajouté avec succès !");
     }
 
     private void addRoom() {
-        // Logique pour ajouter une chambre
+    	System.out.println("Entrez l'ID de l'hôtel : ");
+	    int hotelId = scanner.nextInt();
+	    scanner.nextLine();
+
+	    System.out.println("Entrez le numéro de chambre : ");
+	    int roomNumber = scanner.nextInt();
+	    scanner.nextLine();
+
+	    System.out.println("Entrez le type de chambre : ");
+	    String roomType = scanner.nextLine();
+
+	    System.out.println("Entrez le prix par nuit : ");
+	    double pricePerNight = scanner.nextDouble();
+	    scanner.nextLine();
+
+	    chambreService.addRoom(hotelId, roomNumber, roomType, pricePerNight);
+	    System.out.println("La chambre a été ajoutée avec succès !");
     }
 
     private void makeReservation() {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,22 +20,25 @@ import jakarta.persistence.Table;
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_reservation")
     private Long id;
+    @Column(name = "date_debut")
     private Date dateDebut;
+    @Column(name = "date_fin")
     private Date dateFin;
 
     @ManyToOne
-    @JoinColumn(name = "chambre_id")
+    @JoinColumn(name = "ID_chambre")
     private Chambre chambre;
 
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "ID_client")
     private Client client;
 
     @ManyToMany
     @JoinTable(name = "reservation_service",
-            joinColumns = @JoinColumn(name = "reservation_id"),
-            inverseJoinColumns = @JoinColumn(name = "service_id"))
+            joinColumns = @JoinColumn(name = "ID_reservation"),
+            inverseJoinColumns = @JoinColumn(name = "id_service"))
     private List<Service> services = new ArrayList<>();
 
     public Reservation() {}
