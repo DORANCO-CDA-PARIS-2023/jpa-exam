@@ -29,4 +29,27 @@ Vous aurez le choix entre différents types de données pour effectuer votre act
 - **Service (SERVICE) (WIP)** : Gestion des services offerts par l'hôtel.
 ## 📝 Suivre les Instructions
 Après avoir choisi le type de donnée et l'action à effectuer, suivez simplement les instructions affichées dans la console pour mener à bien votre tâche. Le programme vous guidera à travers chaque étape nécessaire pour compléter l'action choisie.
-  
+
+## 📊 Diagrammes du Projet
+Pour une meilleure compréhension de la structure et du fonctionnement de notre base de données, consultez les diagrammes suivants situés dans le dossier `./merise/ du projet` :
+
+### 🗂️ Modèle Conceptuel de Données (MCD)
+Le MCD offre une vue d'ensemble des entités et des relations entre elles. Cela vous aide à comprendre comment les données sont organisées au niveau conceptuel.
+
+![MCD](./merise/MCD.svg)
+
+
+### 📐 Modèle Logique de Données (MLD)
+Le MLD traduit le MCD en une structure prête pour l'implémentation, définissant les tables, les clés primaires, les clés étrangères, et les relations entre les tables.
+
+![MLD](./merise/MLD.svg)
+
+### 🛠️ Modèle Physique de Données (MPD)
+Le MPD est la dernière étape de la modélisation, où le MLD est transformé en instructions SQL spécifiques pour la création de la base de données. Cela comprend la définition des index, des contraintes, et d'autres éléments nécessaires à l'implémentation physique de la base de données.
+
+![MPD](./merise/MPD.svg)
+
+Ces diagrammes sont essentiels pour comprendre la structure de la base de données de notre projet et pour guider le développement et la maintenance du système.
+
+# ⚠️ Note importante pour William
+Ce README a été arrangé par ChatGPT seulement pour le rendre plus jolie 🙂
