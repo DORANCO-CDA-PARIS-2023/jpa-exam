@@ -3,7 +3,7 @@ package com.doranco.services;
 import com.doranco.entity.Reservation;
 import jakarta.persistence.EntityManager;
 
-import java.sql.SQLException;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,7 +22,7 @@ public class ReservationCommandLine {
     public void start(){
         int cmd;
         do {
-            //printOption();
+            printOption();
             cmd = sc.nextInt();
             switch (cmd) {
                 case 1:
@@ -40,7 +40,7 @@ public class ReservationCommandLine {
     }
 
     private void displayReservations() {
-            List<Reservation> reservations = ReservationService.findAll();
+            List<Reservation> reservations = service.findAll();
             if (reservations != null) {
                 for (Reservation reservation : reservations) {
                     System.out.println("ID : " + reservation.getId());
@@ -55,6 +55,20 @@ public class ReservationCommandLine {
                 System.out.println("Aucune réservation trouvé.");
             }
         }
+
+    private void printOption()
+    {
+        System.out.print(
+                """
+                   Option : 
+                        1 - Display reservations
+                        2 - Search book (by title)
+                        3 - Create book
+                        4 - Delete book
+                        5 - exit 
+                    > """
+        );
+    }
     }
 
 

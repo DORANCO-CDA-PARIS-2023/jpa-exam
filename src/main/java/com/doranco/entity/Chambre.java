@@ -23,9 +23,6 @@ public class Chambre {
     @OneToMany (mappedBy = "chambre", cascade = CascadeType.ALL)
     private List<Reservation> reservations = new ArrayList<>();
 
-//    @OneToOne (cascade = CascadeType.ALL)
-//    private ChambreInformation information;
-
     public Chambre(){}
 
     public Chambre(int numero, String type, double prix, String disponibilite) {
@@ -78,10 +75,6 @@ public class Chambre {
     public List<Reservation> getReservations() {
         return reservations;
     }
-
-//    public ChambreInformation getInformation() {return information;}
-
-//    public void setInformation(ChambreInformation information) {this.information = information;}
 
     @Override
     public String toString() {

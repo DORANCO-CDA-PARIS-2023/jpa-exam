@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ReservationService {
 
-    private static EntityManager manager;
+    private final EntityManager manager;
 
     public ReservationService(EntityManager manager){this.manager = manager;}
 
@@ -28,7 +28,7 @@ public class ReservationService {
 
     }
 
-    public static List<Reservation> findAll()
+    public List<Reservation> findAll()
     {
         return manager
                 .createQuery("SELECT r FROM Reservation r", Reservation.class)

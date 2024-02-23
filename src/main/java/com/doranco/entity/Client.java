@@ -22,9 +22,6 @@ public class Client {
     @OneToMany (mappedBy = "client")
     private List<Reservation> reservations = new ArrayList<>();
 
-//    @OneToOne (cascade = CascadeType.ALL)
- //   private ClientInformation information;
-
     public Client(){}
 
     public Client(String nom, String prenom, String adresse, String email) {
@@ -71,11 +68,6 @@ public class Client {
     public void setEmail(String email) {this.email = email;}
 
     public List<Reservation> getReservations() {return reservations;}
-
- //   public ClientInformation getInformation(){return information;}
-
-
-   // public void setInformation(ClientInformation information){this.information = information;}
 
     @Override
     public String toString() {
