@@ -8,7 +8,6 @@ import jakarta.persistence.*;
 @Table(name = "facture")
 public class Facture {
 
-	// , Reservation details, Total cost, Payment status
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +36,15 @@ public class Facture {
 	}
 
 	public Facture(double montant, boolean payee, Reservation reservation, Chambre chambre, Client client) {
+		this.montant = montant;
+		this.payee = payee;
+		this.reservation = reservation;
+		this.chambre = chambre;
+		this.client = client;
+	}
+	
+	public Facture(Long id, double montant, boolean payee, Reservation reservation, Chambre chambre, Client client) {
+		this.id = id;
 		this.montant = montant;
 		this.payee = payee;
 		this.reservation = reservation;

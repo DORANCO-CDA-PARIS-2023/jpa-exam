@@ -1,6 +1,11 @@
 package com.doranco.entity.chambres;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.doranco.entity.uers.Address;
+import com.doranco.entity.uers.Client;
 
 import jakarta.persistence.*;
 
@@ -25,63 +30,94 @@ public class Reservation {
 	@Column(name = "payee")
 	private boolean payee;
 
-	@ManyToOne
-	private Chambre chambre;
+	@OneToMany
+	@JoinColumn(name = "id")
+	private List<Chambre> chambres;
+
+	@OneToMany
+	@JoinColumn(name = "id")
+	private List<Client> clients;
 
 	public Reservation() {
+		this.chambres = new ArrayList<Chambre>();
+		this.clients = new ArrayList<Client>();
 	}
 
-	public Reservation(LocalDate dateDebut, LocalDate dateFin, boolean annulee, boolean payee, Chambre chambre) {
+	public Reservation(LocalDate dateDebut, LocalDate dateFin, boolean annulee, boolean payee) {
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 		this.annulee = annulee;
 		this.payee = payee;
-		this.chambre = chambre;
+	}
+
+	public Reservation(Long id, LocalDate dateDebut, LocalDate dateFin, boolean annulee, boolean payee) {
+		this.id = id;
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
+		this.annulee = annulee;
+		this.payee = payee;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public LocalDate getDateDebut() {
 		return dateDebut;
 	}
 
-	public LocalDate getDateFin() {
-		return dateFin;
-	}
-
-	public boolean isAnnulee() {
-		return annulee;
-	}
-
-	public boolean isPayee() {
-		return payee;
-	}
-
-	public Chambre getChambre() {
-		return chambre;
-	}
-
 	public void setDateDebut(LocalDate dateDebut) {
 		this.dateDebut = dateDebut;
+	}
+
+	public LocalDate getDateFin() {
+		return dateFin;
 	}
 
 	public void setDateFin(LocalDate dateFin) {
 		this.dateFin = dateFin;
 	}
 
+	public boolean isAnnulee() {
+		return annulee;
+	}
+
 	public void setAnnulee(boolean annulee) {
 		this.annulee = annulee;
+	}
+
+	public boolean isPayee() {
+		return payee;
 	}
 
 	public void setPayee(boolean payee) {
 		this.payee = payee;
 	}
 
-	public void setChambre(Chambre chambre) {
-		this.chambre = chambre;
+	public List<Chambre> getChambres() {
+		return chambres;
+	}
+
+	public void setChambres(List<Chambre> chambres) {
+		this.chambres = chambres;
+	}
+
+	public List<Client> getClients() {
+		return clients;
+	}
+
+	public void setClients(List<Client> clients) {
+		this.clients = clients;
 	}
 
 	@Override
 	public String toString() {
-		return "Reservation{" + "dateDebut='" + dateDebut + '\'' + ", dateFin='" + dateFin + '\'' + ", annulee="
-				+ annulee + ", payee=" + payee + ", chambre=" + chambre + '}';
+		return "Reservation [id=" + id + ", dateDebut=" + dateDebut + ", dateFin=" + dateFin + ", annulee=" + annulee
+				+ ", payee=" + payee + ", chambres=" + chambres + ", clients=" + clients + "]";
 	}
+
 }
