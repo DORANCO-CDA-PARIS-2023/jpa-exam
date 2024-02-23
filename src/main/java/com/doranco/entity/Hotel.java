@@ -1,6 +1,8 @@
 package com.doranco.entity;
 
 import jakarta.persistence.*;
+import java.util.List;
+
 
 @Entity
 @Table(name = "HOTEL")
@@ -9,7 +11,7 @@ public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_HOTEL")
-    private Integer idHotel;
+    private int idHotel;
 
     @Column(name = "NOM")
     private String nom;
@@ -17,27 +19,37 @@ public class Hotel {
     @Column(name = "ADRESSE")
     private String adresse;
 
-    @Column(name = "NB_CAMBRE")
+    @Column(name = "NB_CHAMBRE")
     private Integer nbChambre;
 
+    @OneToMany(mappedBy = "hotel")
+    private List<Chambre> chambres;
+    
 	public Integer getIdHotel() {
 		return idHotel;
 	}
 
 	public Hotel(){}
 	
-
-	public Hotel(Integer idHotel, String nom, String adresse, Integer nbChambre) {
+	public Hotel(int idHotel, String nom, String adresse, Integer nbChambre, List<Chambre> chambres) {
 		this.idHotel = idHotel;
 		this.nom = nom;
 		this.adresse = adresse;
 		this.nbChambre = nbChambre;
+		this.chambres = chambres;
+	}
+	
+	public void setIdHotel(int idHotel) {
+		this.idHotel = idHotel;
+	}
+	
+	
+	public List<Chambre> getChambres() {
+		return chambres;
 	}
 
-
-
-	public void setIdHotel(Integer idHotel) {
-		this.idHotel = idHotel;
+	public void setChambres(List<Chambre> chambres) {
+		this.chambres = chambres;
 	}
 
 	public String getNom() {
@@ -60,6 +72,7 @@ public class Hotel {
 		return nbChambre;
 	}
 
+	
 	public void setNbChambre(Integer nbChambre) {
 		this.nbChambre = nbChambre;
 	}

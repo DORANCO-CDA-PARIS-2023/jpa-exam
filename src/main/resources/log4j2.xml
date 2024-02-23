@@ -6,9 +6,11 @@
         </Console>
     </Appenders>
     <Loggers>
+        <Logger name="org.hibernate" level="OFF" additivity="false">
+            <AppenderRef ref="stdout" />
+        </Logger>
         <Root level="info">
             <AppenderRef ref="stdout" />
         </Root>
     </Loggers>
-
 </Configuration>

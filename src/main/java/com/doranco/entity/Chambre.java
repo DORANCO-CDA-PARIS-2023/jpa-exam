@@ -9,7 +9,7 @@ public class Chambre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_CHAMBRE")
-    private Integer idChambre;
+    private int idChambre;
 
     @ManyToOne
     @JoinColumn(name = "ID_HOTEL")
@@ -49,8 +49,8 @@ public class Chambre {
 		return hotel;
 	}
 
-	public void setHotel(Hotel hotel) {
-		this.hotel = hotel;
+	public void setHotel(Hotel idHotel) {
+		this.hotel = idHotel;
 	}
 
 	public Integer getNumero() {
