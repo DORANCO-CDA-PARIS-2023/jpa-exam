@@ -7,8 +7,8 @@ import java.util.List;
 
 @Entity
 @Table
-@NamedQuery(name = "findAll", query = "SELECT h FROM Hotel h")
-@NamedQuery(name = "findByName", query = "SELECT h FROM Hotel h WHERE name LIKE :name")
+@NamedQuery(name = "findAllHotel", query = "SELECT h FROM Hotel h")
+@NamedQuery(name = "findHotelByName", query = "SELECT h FROM Hotel h WHERE name LIKE :name")
 public final class Hotel {
 
     @Id

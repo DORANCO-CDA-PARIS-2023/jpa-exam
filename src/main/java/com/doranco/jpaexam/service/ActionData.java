@@ -1,5 +1,6 @@
 package com.doranco.jpaexam.service;
 
+import com.doranco.jpaexam.entity.Employee;
 import com.doranco.jpaexam.entity.Hotel;
 import com.doranco.jpaexam.utils.ScannerUtils;
 import jakarta.persistence.EntityManager;
@@ -96,14 +97,14 @@ public class ActionData {
                 transaction.begin();
                 List<Hotel> hotelList = new ArrayList<>();
                 if (choice == 1) {
-                    TypedQuery<Hotel> findAll = em.createNamedQuery("findAll", Hotel.class);
+                    TypedQuery<Hotel> findAll = em.createNamedQuery("findAllHotel", Hotel.class);
                     hotelList.addAll(findAll.getResultList());
                 } else if (choice == 2) {
                     String name = scUtils.getString(
                             "Entrez le nom de l'hôtel recherché → ",
                             false
                     );
-                    TypedQuery<Hotel> findByName = em.createNamedQuery("findByName", Hotel.class);
+                    TypedQuery<Hotel> findByName = em.createNamedQuery("findHotelByName", Hotel.class);
                     findByName.setParameter("name", name);
                     hotelList.addAll(findByName.getResultList());
                 } else {
@@ -134,6 +135,7 @@ public class ActionData {
                 Hotel hotel = em.find(Hotel.class, id);
                 if (hotel == null) {
                     System.out.println("Cette id ne correspond à aucun hôtel existant.");
+                    System.out.println(largeSeparator);
                     return;
                 }
 
@@ -236,16 +238,165 @@ public class ActionData {
     private void treatEmployee() {
         switch (actionType) {
             case CREATE -> {
+                Employee employee = new Employee();
 
+                long hotelId = scUtils.getLong(
+                        "Entrez l'id de l'hôtel où travail l'employé → ",
+                        1,
+                        Long.MAX_VALUE
+                );
+
+                Hotel hotel = em.find(Hotel.class, hotelId);
+                if (hotel == null) {
+                    System.out.println("Cette id ne correspond à aucun hôtel.");
+                    System.out.println(largeSeparator);
+                    return;
+                }
+
+                employee.setHotel(hotel);
+
+                employee.setName(scUtils.getString(
+                        "Entrez le nom de l'employé → ",
+                        false
+                ));
+
+                employee.setFirstname(scUtils.getString(
+                        "Entrez le prénom de l'employé → ",
+                        false
+                ));
+
+                employee.setPost(scUtils.getString(
+                        "Entrez le post occupé par l'employé → ",
+                        false
+                ));
+
+
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.persist(employee);
+                transaction.commit();
+                System.out.println("L'employé a été crée avec succès.");
+                System.out.println(largeSeparator);
             }
             case READ -> {
+                String prompt = String.format("""
+                        %s
+                        1. Afficher tous les employee
+                        2. Chercher un employé par nom complet
+                        3. Chercher un employé par id
+                        %s
+                        → """,
+                        largeSeparator, largeSeparator);
 
+                int choice = scUtils.getInt(prompt, 1, 3);
+
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                List<Employee> employeeList = new ArrayList<>();
+                if (choice == 1) {
+                    TypedQuery<Employee> findAll = em.createNamedQuery("findAllEmployee", Employee.class);
+                    employeeList.addAll(findAll.getResultList());
+                } else if (choice == 2) {
+                    String fullname = scUtils.getString(
+                            "Entrez le nom complet de l'employé recherché (name firstname) → ",
+                            false
+                    ).trim();
+                    TypedQuery<Employee> findByName = em.createNamedQuery("findEmployeeByFullName", Employee.class);
+                    findByName.setParameter("fullname", fullname);
+                    employeeList.addAll(findByName.getResultList());
+                } else {
+                    long id = scUtils.getLong(
+                            "Entrez l'id de l'hôtel recherché → ",
+                            1l,
+                            Long.MAX_VALUE
+                    );
+                    Employee employee = em.find(Employee.class, id);
+                    if (employee != null) {
+                        employeeList.add(employee);
+                    }
+                }
+                transaction.commit();
+
+                System.out.println(mediumSeparator);
+                System.out.println("Résultat:");
+                employeeList.stream().map(Employee::toString).forEach(System.out::println);
+                System.out.println(largeSeparator);
             }
             case UPDATE -> {
+                long id = scUtils.getLong(
+                        "Entrez l'id de l'employé à modifier → ",
+                        1,
+                        Long.MAX_VALUE
+                );
 
+                Employee employee = em.find(Employee.class, id);
+                if (employee == null) {
+                    System.out.println("Cette id ne correspond à aucun employé existant.");
+                    System.out.println(largeSeparator);
+                    return;
+                }
+
+                employee.setName(scUtils.getString(
+                        "Entrez le nouveau nom de l'employé → ",
+                        false
+                ));
+
+                employee.setFirstname(scUtils.getString(
+                        "Entrez le nouveau prénom de l'employé → ",
+                        false
+                ));
+
+                employee.setPost(scUtils.getString(
+                        "Entrez le nouveau post occupé par l'employé → ",
+                        false
+                ));
+
+                long hotelId = scUtils.getLong(
+                        "Entrez l'id du nouvel hôtel où travail l'employé → ",
+                        1,
+                        Long.MAX_VALUE
+                );
+
+                Hotel hotel = em.find(Hotel.class, hotelId);
+                if (hotel == null) {
+                    System.out.println("Cette id ne correspond à aucun hôtel.");
+                    System.out.println(largeSeparator);
+                    return;
+                }
+
+                employee.setHotel(hotel);
+
+                System.out.println(mediumSeparator);
+
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.merge(employee);
+                transaction.commit();
+                System.out.println("L'employé a été modifié avec succès.");
+                System.out.println(largeSeparator);
             }
             case DELETE -> {
+                long id = scUtils.getLong(
+                        "Entrez l'id de l'employé à supprimer → ",
+                        1,
+                        Long.MAX_VALUE
+                );
 
+                Employee employee = em.find(Employee.class, id);
+                if (employee == null) {
+                    System.out.println("Cette id ne correspond à aucun employé existant.");
+                    System.out.println(largeSeparator);
+                    return;
+                }
+
+                System.out.println(mediumSeparator);
+
+                EntityTransaction transaction = em.getTransaction();
+                transaction.begin();
+                em.remove(employee);
+                transaction.commit();
+                System.out.println("L'employé a été supprimé avec succès.");
+                System.out.println(largeSeparator);
             }
         }
     }

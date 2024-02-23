@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 @Entity
 @Table
+@NamedQuery(name = "findAllEmployee", query = "SELECT e FROM Employee e")
+@NamedQuery(name = "findEmployeeByFullName", query = "SELECT e FROM Employee e WHERE CONCAT(name, ' ', firstname) LIKE :fullname ")
 public final class Employee {
 
     @Id
@@ -56,4 +58,14 @@ public final class Employee {
         this.hotel = hotel;
     }
 
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", post='" + post + '\'' +
+                ", hotel=" + hotel +
+                '}';
+    }
 }
