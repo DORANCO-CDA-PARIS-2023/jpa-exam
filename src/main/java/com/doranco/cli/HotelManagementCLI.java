@@ -56,6 +56,7 @@ public class HotelManagementCLI {
                 case 4:
                     viewAllReservations();
                     break;
+
                 case 5:
                     System.out.println("Exiting...");
                     break;
@@ -114,18 +115,14 @@ public class HotelManagementCLI {
         customer.setFirstName(customerName);
         Room room=new Room();
         room.setRoomNumber(roomNumber);
+        System.out.println(roomService.findHotelfromHotelid(hotelId));
+        room.setHotel(roomService.findHotelfromHotelid(hotelId));
         roomService.create(room);
-
         customerService.create(customer);
         reservation.setCustomer(customer);
-
         reservation.setStartDate(startDate);
         reservation.setEndDate(endDate);
-
         reservation.setRoom(room);
-        reservation.setCustomer(customer);
-        Reservation reservation1=new Reservation(customer.getId(),endDate,room.getId(),startDate);
-        reservationService.create(reservation1);
         reservationService.create(reservation);
 
 

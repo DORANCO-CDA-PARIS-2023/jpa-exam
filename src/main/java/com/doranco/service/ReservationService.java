@@ -1,7 +1,6 @@
 package com.doranco.service;
 
 
-import com.doranco.entities.Hotel;
 import com.doranco.entities.Reservation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -34,5 +33,6 @@ public class ReservationService  {
         return manager
                 .createQuery( "SELECT l FROM Reservation l", Reservation.class)
                 .getResultList();
-    }}
+    }
+}
 
