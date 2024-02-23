@@ -72,6 +72,11 @@ public class Service {
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
 	}
+
+	@Override
+	public String toString() {
+		return service + " : " + price + " €";
+	}
 	 
 	 
 }
