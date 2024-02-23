@@ -1,15 +1,11 @@
 package com.doranco;
 
-
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import com.doranco.action.ApplicationCLI;
 
 public class App
 {
-    public static void main( String[] args )
-    {
-        try (EntityManagerFactory ef = Persistence.createEntityManagerFactory("TpFinal")){
-
-        }
-    }
+	 public static void main(String[] args) {
+		 ApplicationCLI applicationCLI = new ApplicationCLI(System.in);
+		 applicationCLI.start();
+	 }
 }
