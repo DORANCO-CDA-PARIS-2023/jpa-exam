@@ -1,3 +1,5 @@
 .idea/
 target/
 jpaExam.iml
+merise/.*.bkp
+merise/.*.dtmp
