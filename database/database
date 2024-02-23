@@ -1,0 +1,102 @@
+DROP DATABASE IF EXISTS Hotel;
+CREATE DATABASE Hotel;
+
+USE Hotel;
+
+-- Table Hotel
+CREATE TABLE Hotel (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    Nom VARCHAR(255),
+    Adresse VARCHAR(255),
+    Chambre_Dispo INT
+);
+
+-- Table Chambre
+CREATE TABLE Chambre (
+    Id_Chambre INT PRIMARY KEY AUTO_INCREMENT,
+    Numero VARCHAR(50),
+    Type VARCHAR(100),
+    Prix DECIMAL(10, 2),
+    Id INT,
+    FOREIGN KEY (Id) REFERENCES Hotel(Id)
+);
+
+
+
+CREATE TABLE Employer (
+    Id_Employe INT PRIMARY KEY AUTO_INCREMENT,
+    Prenom VARCHAR(100),
+    Nom VARCHAR(100),
+    Poste VARCHAR(100),
+    Id INT,
+    FOREIGN KEY (Id) REFERENCES Hotel(Id)
+);
+
+
+
+CREATE TABLE Client (
+    Id_Client INT PRIMARY KEY AUTO_INCREMENT,
+    Prenom VARCHAR(100),
+    Nom VARCHAR(100),
+    Adresse VARCHAR(255),
+    Telephone VARCHAR(20)
+);
+
+
+
+CREATE TABLE Service (
+    Id_Service INT PRIMARY KEY AUTO_INCREMENT,
+    Libelle VARCHAR(100),
+    Description TEXT,
+    Id INT,
+    FOREIGN KEY (Id) REFERENCES Hotel(Id)
+);
+
+
+CREATE TABLE Reservation (
+    Id_Reservation INT PRIMARY KEY AUTO_INCREMENT,
+    Id_Client INT,
+    Id_Chambre INT,
+    Date_Debut DATE,
+    Date_Fin DATE,
+    FOREIGN KEY (Id_Client) REFERENCES Client(Id_Client),
+    FOREIGN KEY (Id_Chambre) REFERENCES Chambre(Id_Chambre)
+);
+
+
+
+
+-- Ajouter  des éléments dans la table Hotel
+INSERT INTO Hotel (Nom, Adresse, Chambre_Dispo) VALUES
+('Hotel A', 'Adresse B', 5),
+('Hotel C', 'Adresse D', 6),
+('Hotel E', 'Adresse F', 7);
+
+-- Ajouter des éléments dans la table Chambre
+INSERT INTO Chambre (Numero, Type, Prix, Id) VALUES
+('01', 'Simple', 25.00, 1),
+('02', 'Simple', 40.00, 1),
+('03', 'Double', 50.00, 2),
+('04', 'Double', 75.00, 2),
+('05', 'Suite', 100.00, 3),
+('06', 'Suite', 150.00, 3);
+
+INSERT INTO Client (Prenom, Nom, Adresse, Telephone) VALUES
+('Jason', 'Statham', 'Adresse 01', '0606060606'),
+('Ah', 'Med', 'Adresse 2', '0707070707'),
+('Cristiano', 'Ronaldo', 'Adresse 3', '0808080808');
+
+INSERT INTO Employer (Prenom, Nom, Poste, Id) VALUES
+('karim', 'ben', 'Gérant', 1),
+('Lola', 'Lili', 'Concierge', 2),
+('Paul', 'Pogba', 'Receptionniste', 3);
+
+INSERT INTO Reservation (Id_Client, Id_Chambre, Date_Debut, Date_Fin) VALUES
+(1, 2, '2024-02-23', '2024-03-01'),
+(2, 4, '2024-03-02', '2024-03-03'),
+(3, 6, '2024-03-15', '2024-04-05');
+
+INSERT INTO Service (Libelle, Description, Id) VALUES
+('Musculation', 'Salle de Muscu exterieur.', 1),
+('Restaurant', 'Restaurant 5 etoiles.', 2),
+('Spa', 'Soins visage et Soins du corps..', 3);
