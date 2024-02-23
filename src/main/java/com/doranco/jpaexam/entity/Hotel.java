@@ -7,6 +7,8 @@ import java.util.List;
 
 @Entity
 @Table
+@NamedQuery(name = "findAll", query = "SELECT h FROM Hotel h")
+@NamedQuery(name = "findByName", query = "SELECT h FROM Hotel h WHERE name LIKE :name")
 public final class Hotel {
 
     @Id
@@ -61,5 +63,14 @@ public final class Hotel {
 
     public List<Service> getServiceList() {
         return serviceList;
+    }
+
+    @Override
+    public String toString() {
+        return "Hotel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                '}';
     }
 }

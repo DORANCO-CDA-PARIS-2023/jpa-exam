@@ -13,7 +13,6 @@ public  final class Booking {
     @GeneratedValue
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL)
-    @Column(nullable = false)
     @JoinColumn(name = "client", nullable = false)
     private Client client;
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
