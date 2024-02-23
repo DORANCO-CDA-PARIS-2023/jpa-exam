@@ -10,7 +10,7 @@
             <!--<property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost/#DB_NAME#" />
             <property name="jakarta.persistence.jdbc.user" value="#USER#" />
             <property name="jakarta.persistence.jdbc.password" value="#PASSWORD#" /> -->
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost/database" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost/hotel" />
             <property name="jakarta.persistence.jdbc.user" value="root" />
             <property name="jakarta.persistence.jdbc.password" value="rootroot" />
             <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create" />

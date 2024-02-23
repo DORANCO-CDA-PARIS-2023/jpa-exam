@@ -28,6 +28,19 @@ public class Chambre {
     @OneToMany(mappedBy = "chambre", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
+    @Transient
+    private EntityManager entityManager;
+
+    public Chambre() {
+    }
+
+    public Chambre(String numero, String type, float prix, Hotel hotel) {
+        this.numero = numero;
+        this.type = type;
+        this.prix = prix;
+        this.hotel = hotel;
+    }
+
     public Long getIdChambre() {
         return idChambre;
     }
@@ -74,5 +87,27 @@ public class Chambre {
 
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    public void ajouterChambre(String numero, String type, float prix, Hotel hotel) {
+
+        if (entityManager != null) {
+            entityManager.getTransaction().begin();
+            Chambre chambre = new Chambre(numero, type, prix, hotel);
+            entityManager.persist(chambre);
+            entityManager.getTransaction().commit();
+        } else {
+            throw new IllegalStateException("EntityManager non initialisé. Veuillez le définir avant d'utiliser cette méthode.");
+        }
+    }
+
+    public void close() {
+        if (entityManager != null && entityManager.isOpen()) {
+            entityManager.close();
+        }
     }
 }

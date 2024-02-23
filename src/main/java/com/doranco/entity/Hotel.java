@@ -22,11 +22,22 @@ public class Hotel {
     @Column(name = "NombreChambreDispo")
     private Integer nombreChambreDispo;
 
-    @OneToMany(mappedBy = "hotel")
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private Set<Chambre> chambres = new HashSet<>();
 
-    @OneToMany(mappedBy = "hotel")
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private Set<Service> services = new HashSet<>();
+
+    // Constructeur par défaut requis par Hibernate
+    public Hotel() {
+    }
+
+    // Constructeur avec tous les champs
+    public Hotel(String nom, String adresse, int nombreChambreDispo) {
+        this.nom = nom;
+        this.adresse = adresse;
+        this.nombreChambreDispo = nombreChambreDispo;
+    }
 
     public Long getIdHotel() {
         return idHotel;
