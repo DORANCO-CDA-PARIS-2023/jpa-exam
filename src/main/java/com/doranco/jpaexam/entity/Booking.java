@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table
-@NamedQuery(name = "findAllBooking", query = "SELECT b FROM Booking")
+@NamedQuery(name = "findAllBooking", query = "SELECT b FROM Booking b")
 public  final class Booking {
 
     @Id
