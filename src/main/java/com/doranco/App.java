@@ -48,11 +48,9 @@ public class App
             service.create(new Reservation("01.01.2024","03.01.2024","en cours de validation",client1,chambre1));
             service.create(new Reservation("05.01.2024","08.01.2024","en cours de validation",client1,chambre2));
             service.create(new Reservation("09.01.2024","10.01.2024","en cours de validation",client2,chambre2));
-
-
-            ReservationCommandLine reservationCommandLine = new ReservationCommandLine();
-            reservationCommandLine.start();
-
+            
+            //ReservationCommandLine reservationCommandLine = new ReservationCommandLine();
+            //reservationCommandLine.start();
 
            manager.close();
         }

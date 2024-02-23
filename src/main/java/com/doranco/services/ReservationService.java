@@ -23,9 +23,12 @@ public class ReservationService {
         transaction.commit();
     }
 
-    public void delete (int id)
+    public void delete (Reservation reservation)
     {
-
+        EntityTransaction transaction = manager.getTransaction();
+        transaction.begin();
+        manager.remove(reservation);
+        transaction.commit();
     }
 
     public List<Reservation> findAll()
