@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.doranco.entity.Hotel;
+import com.doranco.enums.UserRoles;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -30,15 +33,19 @@ public class Client {
 	@Column(name = "date_of_birth")
 	private LocalDate dateOfBirth;
 
-	@OneToMany(mappedBy = "id")
+	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
 	private List<Address> addresses;
 
 	@OneToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 
+	@ManyToOne
+	@JoinColumn(name = "hotel_id")
+	private Hotel hotel;
+
 	public Client() {
-		this.addresses = new ArrayList<Address>();
+		this.addresses = new ArrayList<>();
 	}
 
 	public Client(String firstName, String lastName, String telephone, String gender, LocalDate dateOfBirth,
@@ -49,7 +56,7 @@ public class Client {
 		this.gender = gender;
 		this.dateOfBirth = dateOfBirth;
 		this.user = user;
-		this.addresses = new ArrayList<Address>();
+		this.addresses = new ArrayList<>();
 	}
 
 	public Client(Long id, String firstName, String lastName, String telephone, String gender, LocalDate dateOfBirth,
@@ -61,7 +68,7 @@ public class Client {
 		this.gender = gender;
 		this.dateOfBirth = dateOfBirth;
 		this.user = user;
-		this.addresses = new ArrayList<Address>();
+		this.addresses = new ArrayList<>();
 	}
 
 	public Long getId() {
@@ -128,11 +135,18 @@ public class Client {
 		this.user = user;
 	}
 
+	public Hotel getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
+
 	@Override
 	public String toString() {
 		return "Client [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", telephone=" + telephone
 				+ ", gender=" + gender + ", dateOfBirth=" + dateOfBirth + ", addresses=" + addresses + ", user=" + user
 				+ "]";
 	}
-
 }

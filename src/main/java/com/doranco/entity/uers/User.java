@@ -1,90 +1,110 @@
 package com.doranco.entity.uers;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user")
 public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(name = "username")
-	private String username;
+    @Column(name = "username")
+    private String username;
 
-	@Column(name = "password")
-	private String password;
+    @Column(name = "password")
+    private String password;
 
-	@Column(name = "email")
-	private String email;
+    @Column(name = "email")
+    private String email;
 
-	@Column(name = "role")
-	private String role;
+    @Column(name = "role")
+    private String role;
 
-	public User() {
-	}
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Moderateur moderateur;
 
-	public User(String username, String password, String email, String role) {
-		this.username = username;
-		this.password = password;
-		this.email = email;
-		this.role = role;
-	}
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Client client;
 
-	public User(Long id, String username, String password, String email, String role) {
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.email = email;
-		this.role = role;
-	}
+    public User() {
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public User(String username, String password, String email, String role) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public User(Long id, String username, String password, String email, String role) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getRole() {
-		return role;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setRole(String role) {
-		this.role = role;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", role="
-				+ role + "]";
-	}
+    public String getRole() {
+        return role;
+    }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Moderateur getModerateur() {
+        return moderateur;
+    }
+
+    public void setModerateur(Moderateur moderateur) {
+        this.moderateur = moderateur;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", role="
+                + role + "]";
+    }
 }

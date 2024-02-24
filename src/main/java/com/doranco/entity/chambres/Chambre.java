@@ -1,85 +1,105 @@
 package com.doranco.entity.chambres;
 
+import com.doranco.entity.Hotel;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "chambre")
 public class Chambre {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(name = "numero")
-	private String numero;
+    @Column(name = "numero")
+    private String numero;
 
-	@Column(name = "etage")
-	private int etage;
+    @Column(name = "etage")
+    private int etage;
 
-	@Column(name = "disponible")
-	private boolean disponible;
+    @Column(name = "disponible")
+    private boolean disponible;
 
-	@Column(name = "type")
-	private String type; // (single, double, suite)
+    @Column(name = "type")
+    private String type; // (single, double, suite)
 
-	@ManyToOne
-	@JoinColumn(name = "categorie_chambre_id")
-	private CategorieChambre categorieChambre;
+    @ManyToOne
+    @JoinColumn(name = "categorie_chambre_id")
+    private CategorieChambre categorieChambre;
 
-	public Chambre() {
-	}
+    @ManyToOne
+    @JoinColumn(name = "hotel_id")
+    private Hotel hotel;
 
-	public Chambre(String numero, int etage, boolean disponible, CategorieChambre categorieChambre, String type) {
-		this.numero = numero;
-		this.etage = etage;
-		this.disponible = disponible;
-		this.categorieChambre = categorieChambre;
-		this.type = type;
-	}
+    public Chambre() {
+    }
 
-	public String getNumero() {
-		return numero;
-	}
+    public Chambre(String numero, int etage, boolean disponible, CategorieChambre categorieChambre, String type, Hotel hotel) {
+        this.numero = numero;
+        this.etage = etage;
+        this.disponible = disponible;
+        this.categorieChambre = categorieChambre;
+        this.type = type;
+        this.hotel = hotel;
+    }
 
-	public int getEtage() {
-		return etage;
-	}
+    public String getNumero() {
+        return numero;
+    }
 
-	public boolean isDisponible() {
-		return disponible;
-	}
+    public int getEtage() {
+        return etage;
+    }
 
-	public CategorieChambre getCategorieChambre() {
-		return categorieChambre;
-	}
+    public boolean isDisponible() {
+        return disponible;
+    }
 
-	public void setNumero(String numero) {
-		this.numero = numero;
-	}
+    public CategorieChambre getCategorieChambre() {
+        return categorieChambre;
+    }
 
-	public void setEtage(int etage) {
-		this.etage = etage;
-	}
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
 
-	public void setDisponible(boolean disponible) {
-		this.disponible = disponible;
-	}
+    public void setEtage(int etage) {
+        this.etage = etage;
+    }
 
-	public void setCategorieChambre(CategorieChambre categorieChambre) {
-		this.categorieChambre = categorieChambre;
-	}
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setCategorieChambre(CategorieChambre categorieChambre) {
+        this.categorieChambre = categorieChambre;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	@Override
-	public String toString() {
-		return "Chambre{" + "numero='" + numero + '\'' + ", etage=" + etage + ", disponible=" + disponible
-				+ ", categorieChambre=" + categorieChambre + '}';
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
+
+    @Override
+    public String toString() {
+        return "Chambre{" +
+                "numero='" + numero + '\'' +
+                ", etage=" + etage +
+                ", disponible=" + disponible +
+                ", categorieChambre=" + categorieChambre +
+                ", hotel=" + hotel +
+                '}';
+    }
 }
