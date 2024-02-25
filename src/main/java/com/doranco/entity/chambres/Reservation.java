@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.doranco.entity.uers.Address;
-import com.doranco.entity.uers.Client;
+import com.doranco.entity.Hotel;
 
+import ch.qos.logback.core.net.server.Client;
 import jakarta.persistence.*;
 
 @Entity
@@ -37,17 +37,28 @@ public class Reservation {
 	@OneToMany
 	@JoinColumn(name = "id")
 	private List<Client> clients;
+	
+	@ManyToOne
+	@JoinColumn(name = "hotel_id")
+	private Hotel hotel;
+	
+	
 
 	public Reservation() {
 		this.chambres = new ArrayList<Chambre>();
 		this.clients = new ArrayList<Client>();
 	}
 
-	public Reservation(LocalDate dateDebut, LocalDate dateFin, boolean annulee, boolean payee) {
+	public Reservation(LocalDate dateDebut, LocalDate dateFin, boolean annulee, boolean payee, Chambre Chambres, Client client, Hotel hotel) {
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 		this.annulee = annulee;
 		this.payee = payee;
+		this.chambres = new ArrayList<>();
+		this.chambres.add(Chambres);
+		this.clients = new ArrayList<>();
+		this.clients.add(client);
+		this.hotel = hotel;
 	}
 
 	public Reservation(Long id, LocalDate dateDebut, LocalDate dateFin, boolean annulee, boolean payee) {

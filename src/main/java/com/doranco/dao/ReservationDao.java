@@ -94,5 +94,22 @@ public class ReservationDao implements IReservationDao {
 			throw e;
 		}
 	}
+	
+	public List<Reservation> getReservationsByClientId(Long clientId) throws Exception {
+		EntityTransaction transaction = manager.getTransaction();
+		try {
+			transaction.begin();
+			Query query = manager.createQuery("SELECT r FROM Reservation r WHERE r.client.id = :clientId");
+			query.setParameter("clientId", clientId);
+			List<Reservation> reservations = query.getResultList();
+			transaction.commit();
+			return reservations;
+		} catch (Exception e) {
+			if (transaction != null && transaction.isActive()) {
+				transaction.rollback();
+			}
+			throw e;
+		}
+	}
 
 }

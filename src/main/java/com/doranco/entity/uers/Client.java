@@ -58,9 +58,21 @@ public class Client {
 		this.user = user;
 		this.addresses = new ArrayList<>();
 	}
+	
+	public Client(String firstName, String lastName, String telephone, String gender, LocalDate dateOfBirth,
+			Address address,User user) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.telephone = telephone;
+		this.gender = gender;
+		this.dateOfBirth = dateOfBirth;
+		this.user = user;
+		this.addresses = new ArrayList<>();
+		this.addresses.add(address);
+	}
 
 	public Client(Long id, String firstName, String lastName, String telephone, String gender, LocalDate dateOfBirth,
-			User user) {
+			Address address,User user) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
